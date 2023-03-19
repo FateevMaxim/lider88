@@ -58,9 +58,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $url = '/';
-        if(Auth::user()->type !== null){
-            $url = "/stock";
-        }
+
         Auth::guard('web')->logout();
 
 
