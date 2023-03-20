@@ -54,10 +54,11 @@
         <button onclick="install()" class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">{{ __('Android') }}</button>
     </div>
     <div class="flex-1">
-        <button class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
-            <a href="https://youtu.be/0j5jX8ufoFs" target="_blank">{{ __('Iphone') }}
-            </a>
-        </button>
+        <a href="https://youtu.be/0j5jX8ufoFs" target="_blank">
+            <button class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+            {{ __('Iphone') }}
+            </button>
+        </a>
     </div>
 
 </div>
