@@ -10,21 +10,21 @@
     "theme_color": "#fff",
     "icons": [
         {
-        "src": "/favicons/android-icon-192x192.png",
-        "type": "image/png",
+        "src": "/favicons/192x192.jpg",
+        "type": "image/jpg",
         "sizes": "192x192",
             "purpose": "android"
         },
         {
-            "src": "/favicons/512x512.png",
+            "src": "/favicons/512x512.jpg",
             "sizes": "512x512",
-            "type": "image/png",
+            "type": "image/jpg",
             "purpose": "maskable"
         },
         {
-            "src": "/favicons/512x512.png",
+            "src": "/favicons/512x512.jpg",
             "sizes": "512x512",
-            "type": "image/png",
+            "type": "image/jpg",
             "purpose": "any"
         }
     ]
