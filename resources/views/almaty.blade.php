@@ -64,29 +64,21 @@
                         <script>
 
                             let code = "";
-                            let reading = false;
                             var number = 1;
-                            document.addEventListener('keypress', e => {
-                                //usually scanners throw an 'Enter' key at the end of read
-                                if (e.keyCode === 13) {
-                                    if(code.length > 5) {
-                                        $('#track_codes_list').append('<h2>'+number+'. '+code+'</h2>');
-                                        $('#clear_track_codes').append(code+'\r\n');
-                                        $("#count").text(number);
-                                        number++;
-                                        code = "";
-                                    }
-                                } else {
-                                    code += e.key; //while this is not an 'enter' it stores the every key
-                                }
 
-                                //run a timeout of 200ms at the first read and clear everything
-                                if(!reading) {
-                                    reading = true;
-                                    setTimeout(() => {
-                                        code = "";
-                                        reading = false;
-                                    }, 200);  //200 works fine for me but you can adjust it
+                            document.addEventListener('keypress', e => {
+                                if (e.key === "Enter") {
+                                    $('#track_codes_list').append('<h2>'+number+'. '+code+'</h2>');
+                                    $('#clear_track_codes').append(code+'\r\n');
+                                    $("#count").text(number);
+                                    number++;
+                                    code = "";
+                                } else {
+                                    if(e.code[0] === "D"){
+                                        code += e.code[5]
+                                        return
+                                    }
+                                    code += e.code[3];
                                 }
                             });
 
