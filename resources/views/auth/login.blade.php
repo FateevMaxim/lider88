@@ -37,9 +37,11 @@
             </x-primary-button>
         </div>
             <div class="flex items-center justify-end mt-4">
-                <x-secondary-button class="w-9/12 mx-auto">
-                    <a href="{{ route('register') }}">{{ __('Зарегистрироваться') }}</a>
-                </x-secondary-button>
+                <a href="{{ route('register') }}" class="grid w-9/12 mx-auto">
+                    <x-secondary-button>
+                        {{ __('Зарегистрироваться') }}
+                    </x-secondary-button>
+                </a>
             </div>
         @if(isset($config->whats_app))
             <div class="flex items-center justify-end mt-4">
