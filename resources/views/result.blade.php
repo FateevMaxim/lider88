@@ -1,4 +1,6 @@
-@section( 'chinaaddress', $config->address )
+@if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
+@if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
+@if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -71,32 +73,36 @@
                     </button>
                 </div>
             @endif
-            <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mr-5 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 ml-5 mr-5 mb-2 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
-                    <div
-                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов
+                    <div class="bg-neutral-50 py-3 px-5">
+                        Количество зарегистрированных клиентов
                     </div>
-                    <canvas id="pie-chart" width="800" height="450"></canvas>
-                    <p class="ml-4">
-                        Количество добавленных треков сегодня: <b>{{ $tracks_today }}</b>
+                    <canvas id="client-chart" width="400" height="250"></canvas>
+
+                    <p class="ml-4 mb-1 mt-1">
+                        Сколько клиентов заходили на сайт сегодня: <b>{{ $clients_auth }}</b>
                     </p>
-                    <p class="ml-4">
-                        Количество добавленных треков за текущий месяц: <b>{{ $tracks_month }}</b>
+                    <p class="ml-4 mb-1 mt-1">
+                        Количество зарегистрированных трек кодов клиентом на сегодня: <b>{{ $tracks_today }}</b>
+                    </p>
+                    <p class="ml-4 mb-1 mt-1">
+                        Количество зарегистрированных трек кодов клиентом на этот месяц: <b>{{ $tracks_month }}</b>
                     </p>
                 </div>
                 <div class="overflow-hidden rounded-lg shadow-lg">
-                    <div class="bg-neutral-50 py-3 px-5">
-                        Количество клиентов и заказанных товаров
+                    <div
+                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                        Количество добавленных трек кодов на складах
                     </div>
-                    <canvas id="client-chart" width="400" height="250"></canvas>
+                    <canvas id="pie-chart" width="800" height="450"></canvas>
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-1 ml-5 mr-5 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
                     <div
                         class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
-                        Количество добавленных трек кодов
+                        Количество добавленных трек кодов на складах
                     </div>
                     <canvas id="pie-chart-days" width="800" height="450"></canvas>
                 </div>
@@ -105,7 +111,6 @@
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                 <script type="text/javascript">
 
@@ -115,7 +120,9 @@
                     var users2 =  {{ Js::from($data2) }};
                     var users3 =  {{ Js::from($data3) }};
                     var clients =  {{ Js::from($clients) }};
-                    var client_tracks =  {{ Js::from($client_tracks) }};
+                    var clients_false =  {{ Js::from($clients_false) }};
+                    var clients_true =  {{ Js::from($clients_true) }};
+                    var clients_today =  {{ Js::from($clients_today) }};
 
                     new Chart(document.getElementById("pie-chart"), {
                         type: 'bar',
@@ -155,21 +162,22 @@
                     new Chart(document.getElementById("client-chart"), {
                         type: 'doughnut',
                         data: {
-                            labels: ['Клиентов', 'Товаров'],
+                            labels: [ 'На сегодня: '+clients_today, 'Есть доступ: '+clients_true, 'Нет доступа: '+clients_false,  'Всего: '+clients],
                             datasets: [
                                 {
                                     label: "Количество",
-                                    backgroundColor: ["#ff6a00", "#0f00ff"],
-                                    data: [clients, client_tracks],
+                                    backgroundColor: [ "#3366cc", "#dc3912", "#ff9900", "#109618"],
+                                    data: [clients_today, clients_true, clients_false,  clients],
                                 }
                             ]
                         },
                         options: {
                             plugins: {
                                 legend: {
-                                    position: 'top',
-                                }
+                                    position: 'right',
+                                },
                             },
+
                             responsive: true,
                             interaction: {
                                 intersect: false,

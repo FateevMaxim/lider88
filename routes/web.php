@@ -44,7 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/accept-product', [ProductController::class, 'acceptProduct'])->name('accept-product');
     Route::post('/client-product-archive', [ProductController::class, 'archiveProduct'])->name('client-product-archive');
     Route::post('/client-product-unarchive', [ProductController::class, 'unArchiveProduct'])->name('client-product-unarchive');
+    Route::post('/delete-track', [ProductController::class, 'deleteTrack'])->name('delete-track');
     Route::post('/client-delete', [ProfileController::class, 'deleteClient'])->name('client-delete');
+    Route::post('/client-edit', [ProfileController::class, 'editClient'])->name('client-edit');
     Route::post('/client-access', [ProfileController::class, 'accessClient'])->name('client-access');
     Route::post('/client-block', [ProfileController::class, 'blockClient'])->name('client-block');
     Route::post('/client-search', [ProfileController::class, 'searchClient'])->name('client-search');

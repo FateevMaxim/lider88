@@ -75,6 +75,14 @@ class ProfileController extends Controller
         return redirect('dashboard')->with('message', 'Блокировка обновлена');
     }
 
+    public function editClient (Request $request)
+    {
+        $user = User::find($request['userId']);
+        $user->city = $request['editCity'];
+        $user->save();
+        return redirect('dashboard')->with('message', 'Город клиента изменён');
+    }
+
     public function searchClient (Request $request)
     {
         $users = User::query()->where('login', 'LIKE', '%'.$request->phone.'%')->get();

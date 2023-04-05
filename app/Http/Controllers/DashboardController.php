@@ -24,31 +24,31 @@ class DashboardController extends Controller
                 ->where('client_track_lists.status',null)
                 ->orderByDesc('client_track_lists.id')
                 ->get();
-            $config = Configuration::query()->select('address')->first();
+            $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = count($tracks);
 
             $messages = Message::all();
 
             return view('dashboard')->with(compact('tracks', 'count', 'messages', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'stock'){
-            $config = Configuration::query()->select('address')->first();
+            $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = TrackList::query()->whereDate('created_at', Carbon::today())->count();
             return view('stock')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'almatyin'){
-            $config = Configuration::query()->select('address')->first();
+            $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = TrackList::query()->whereDate('to_almaty', Carbon::today())->count();
             return view('almaty')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'almatyout'){
-            $config = Configuration::query()->select('address')->first();
+            $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
             return view('almatyout')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'othercity'){
-            $config = Configuration::query()->select('address')->first();
+            $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = TrackList::query()->whereDate('to_client', Carbon::today())->count();
             return view('othercity')->with(compact('count', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'admin'){
             $messages = Message::all();
-            $config = Configuration::query()->select('address')->first();
+            $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $search_phrase = '';
             $users = User::query()->select('id', 'name', 'surname', 'type', 'login', 'city', 'is_active', 'block', 'password', 'created_at')->where('type', null)->where('is_active', false)->get();
             return view('admin')->with(compact('users', 'messages', 'search_phrase', 'config'));
@@ -66,7 +66,7 @@ class DashboardController extends Controller
                 ->where('client_track_lists.user_id', Auth::user()->id)
                 ->where('client_track_lists.status', '=', 'archive')
                 ->get();
-        $config = Configuration::query()->select('address')->first();
+        $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
             $count = count($tracks);
             return view('dashboard')->with(compact('tracks', 'count', 'config'));
     }

@@ -1,4 +1,6 @@
-@section( 'chinaaddress', $config->address )
+@if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
+@if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
+@if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
 <x-app-layout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
