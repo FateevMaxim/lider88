@@ -52,14 +52,12 @@
         @endif
 
 <div class="flex w-9/12 gap-2 mt-4 mx-auto md:justify-between">
-    <div class="flex-1">
-        <button onclick="install()" class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">{{ __('Android') }}</button>
+    <div class="grid w-full">
+        <a onclick="install()" class="w-full cursor-pointer mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">{{ __('Android') }}</a>
     </div>
-    <div class="flex-1">
-        <a href="https://youtu.be/0j5jX8ufoFs" target="_blank">
-            <button class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+    <div class="grid w-full">
+        <a href="https://youtu.be/0j5jX8ufoFs" target="_blank" class="w-full mx-auto px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
             {{ __('Iphone') }}
-            </button>
         </a>
     </div>
 
