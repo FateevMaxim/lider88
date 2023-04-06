@@ -115,8 +115,8 @@
                             @else style="background-color: rgb(194 194 194);" @endif>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="col-span-2 ml-5">
-                                    <span data-tooltip-target="tooltip-click" data-tooltip-trigger="click" class="cursor-pointer">{{$user->login}}</span>
-                                    <div id="tooltip-click" role="tooltip" class="absolute left-0 z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+                                    <span data-tooltip-target="tooltip-click{{$user->id}}" data-tooltip-trigger="click" class="cursor-pointer">{{$user->login}}</span>
+                                    <div id="tooltip-click{{$user->id}}" role="tooltip" class="absolute left-0 z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
                                         {!! $user->password !!}
                                         <div class="tooltip-arrow" data-popper-arrow></div>
                                     </div>
@@ -184,13 +184,13 @@
                                     <p><small>Дата регистрации</small><br />
                                         <span>{{$user->created_at}}</span></p>
                                 </li>
-                                <li class="flex justify-between gap-4">
+                                <li class="grid justify-center text-center gap-4">
                                     <form method="POST" action="{{ route('client-access', ['id' => $user->id] ) }}" class="grid items-center w-full justify-end mt-4">
                                         <x-classic-button>
                                             @if($user->is_active == true) {{ __('Заблокировать') }} @else {{ __('Дать доступ') }} @endif
                                         </x-classic-button>
                                     </form>
-                                    <x-secondary-button data-modal-target="editModal{{$user->id}}" data-modal-toggle="editModal{{$user->id}}" class="grid items-center w-full mt-4">
+                                    <x-secondary-button data-modal-target="editModal{{$user->id}}" data-modal-toggle="editModal{{$user->id}}" class="grid items-center w-full justify-end py-3">
                                         Редактировать
                                     </x-secondary-button>
 
