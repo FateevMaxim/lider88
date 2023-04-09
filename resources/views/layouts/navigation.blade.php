@@ -44,7 +44,7 @@
                         </div>
                     @endif
 
-                    @if(\Illuminate\Support\Facades\Auth::user()->type === null)
+
                         <div class="bg-[#b6da3a82] p-2 mt-4 mb-4">
                             <p class="mb-6 text-sm text-dark font-bold">Адрес склада в Китае</p>
                             <p class="mb-6 text-sm text-dark" id="china">@yield( 'chinaaddress' ) <br />
@@ -61,7 +61,6 @@
                             <img src="{{asset('images/china.jpg')}}" alt="China">
                         </div>
                         <hr class="h-px mb-4 bg-gray-200 border-0">
-                    @endif
 
                     {{--<div class="bg-gray-200 p-2 mt-4 mb-4">
                         <p class="leading-4"><small>Для более удобного пользования сайтом добавьте на главный экран Вашего телефона приложение</small></p>
