@@ -19,7 +19,7 @@ class DashboardController extends Controller
             $tracks = ClientTrackList::query()
                 ->leftJoin('track_lists', 'client_track_lists.track_code', '=', 'track_lists.track_code')
                 ->select( 'client_track_lists.track_code', 'client_track_lists.detail', 'client_track_lists.created_at',
-                    'track_lists.to_china','track_lists.to_almaty','track_lists.to_client','track_lists.client_accept','track_lists.status')
+                    'track_lists.to_china','track_lists.to_almaty','client_track_lists.id','track_lists.to_client','track_lists.client_accept','track_lists.status')
                 ->where('client_track_lists.user_id', Auth::user()->id)
                 ->where('client_track_lists.status',null)
                 ->orderByDesc('client_track_lists.id')
