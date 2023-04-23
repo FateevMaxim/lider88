@@ -1,6 +1,13 @@
 @if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
 @if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
 @if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
+<style>
+    /* Set the chart container width to a percentage value */
+    #barchart_values {
+        width: 100%;
+        height: 1200px;
+    }
+</style>
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -10,7 +17,7 @@
                     </button>
                     <div class="mx-auto">
                         <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="inline-flex flex-col items-center justify-center px-5">
-                            <div class="circleBase circle1">
+                            <div class="circleBase circle1" style="margin-top:40px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-11 h-11 block mx-auto mt-2 text-white">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
@@ -101,129 +108,147 @@
             <div class="grid grid-cols-1 sm:grid-cols-1 ml-5 mr-5 gap-2">
                 <div class="overflow-hidden rounded-lg shadow-lg">
                     <div
-                        class="bg-neutral-50 py-3 px-5 dark:bg-neutral-700 dark:text-neutral-200">
+                        class="bg-neutral-50 py-3 px-5">
                         Количество добавленных трек кодов на складах
                     </div>
-                    <canvas id="pie-chart-days" width="800" height="450"></canvas>
+                    <div id="barchart_values"></div>
                 </div>
             </div>
-                <!-- Required chart.js -->
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <!-- Required chart.js -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
 
-                <script type="text/javascript">
 
-                    var labels =  {{ Js::from($labels) }};
-                    var users =  {{ Js::from($data) }};
+            <script type="text/javascript">
 
-                    var users2 =  {{ Js::from($data2) }};
-                    var users3 =  {{ Js::from($data3) }};
-                    var clients =  {{ Js::from($clients) }};
-                    var clients_false =  {{ Js::from($clients_false) }};
-                    var clients_true =  {{ Js::from($clients_true) }};
-                    var clients_today =  {{ Js::from($clients_today) }};
+                Chart.register(ChartDataLabels);
+                Chart.defaults.set('plugins.datalabels', {
+                    color: '#000'
+                });
+                var labels =  {{ Js::from($labels) }};
+                var users =  {{ Js::from($data) }};
 
-                    new Chart(document.getElementById("pie-chart"), {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [
-                                {
-                                    label: "Китай",
-                                    backgroundColor: "#ff6a00",
-                                    data: users,
-                                    stack: 'Stack 0',
-                                }, {
-                                    label: "Алматы",
-                                    backgroundColor: "#31c48d",
-                                    data: users2,
-                                    stack: 'Stack 1',
-                                }, {
-                                    label: "Выдача",
-                                    backgroundColor: "#0095ff",
-                                    data: users3,
-                                    stack: 'Stack 2',
-                                }
-                            ]
+                var users2 =  {{ Js::from($data2) }};
+                var users3 =  {{ Js::from($data3) }};
+                var clients =  {{ Js::from($clients) }};
+                var clients_false =  {{ Js::from($clients_false) }};
+                var clients_true =  {{ Js::from($clients_true) }};
+                var clients_today =  {{ Js::from($clients_today) }};
+
+                new Chart(document.getElementById("pie-chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Китай",
+                                backgroundColor: "#ff6a00",
+                                data: users,
+                                stack: 'Stack 0',
+                            }, {
+                                label: "Алматы",
+                                backgroundColor: "#31c48d",
+                                data: users2,
+                                stack: 'Stack 1',
+                            }, {
+                                label: "Выдача",
+                                backgroundColor: "#0095ff",
+                                data: users3,
+                                stack: 'Stack 2',
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Population growth (millions)'
                         },
-                        options: {
-                            title: {
-                                display: true,
-                                text: 'Population growth (millions)'
-                            },
-                            responsive: true,
-                            interaction: {
-                                intersect: false,
-                            },
-                        }
-                    });
-
-                    new Chart(document.getElementById("client-chart"), {
-                        type: 'doughnut',
-                        data: {
-                            labels: [ 'На сегодня: '+clients_today, 'Есть доступ: '+clients_true, 'Нет доступа: '+clients_false,  'Всего: '+clients],
-                            datasets: [
-                                {
-                                    label: "Количество",
-                                    backgroundColor: [ "#3366cc", "#dc3912", "#ff9900", "#109618"],
-                                    data: [clients_today, clients_true, clients_false,  clients],
-                                }
-                            ]
+                        responsive: true,
+                        interaction: {
+                            intersect: false,
                         },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    position: 'right',
-                                },
+                    }
+                });
+
+                new Chart(document.getElementById("client-chart"), {
+                    type: 'doughnut',
+                    data: {
+                        labels: [ 'На сегодня: '+clients_today, 'Есть доступ: '+clients_true, 'Нет доступа: '+clients_false,  'Всего: '+clients],
+                        datasets: [
+                            {
+                                label: "Количество",
+                                backgroundColor: [ "#3366cc", "#dc3912", "#ff9900", "#109618"],
+                                data: [clients_today, clients_true, clients_false,  clients],
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'right',
                             },
-
-                            responsive: true,
-                            interaction: {
-                                intersect: false,
-                            },
-                        }
-                    });
-
-
-                    var labelsDays =  {{ Js::from($labelsDays) }};
-                    var usersDays =  {{ Js::from($dataDays) }};
-
-                    var usersDays2 =  {{ Js::from($dataDays2) }};
-                    var usersDays3 =  {{ Js::from($dataDays3) }};
-                    new Chart(document.getElementById("pie-chart-days"), {
-                        type: 'bar',
-                        data: {
-                            labels: labelsDays,
-                            datasets: [
-                                {
-                                    label: "Китай",
-                                    backgroundColor: "#ff6a00",
-                                    data: usersDays,
-                                    stack: 'Stack 0',
-                                }, {
-                                    label: "Алматы",
-                                    backgroundColor: "#31c48d",
-                                    data: usersDays2,
-                                    stack: 'Stack 1',
-                                }, {
-                                    label: "Выдача",
-                                    backgroundColor: "#0095ff",
-                                    data: usersDays3,
-                                    stack: 'Stack 2',
-                                }
-                            ]
                         },
-                        options: {
-                            indexAxis: 'y',
-                            responsive: true,
-                            interaction: {
-                                intersect: false,
-                            },
-                        }
-                    });
 
-                </script>
+                        responsive: true,
+                        interaction: {
+                            intersect: false,
+                        },
+                    }
+                });
+
+
+                var labelsDays =  {{ Js::from($labelsDays) }};
+                var usersDays =  {{ Js::from($dataDays) }};
+
+                var usersDays2 =  {{ Js::from($dataDays2) }};
+                var usersDays3 =  {{ Js::from($dataDays3) }};
+
+                google.charts.load("current", {packages:["corechart"]});
+                google.charts.setOnLoadCallback(drawChart);
+                function drawChart() {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Дни');
+                    data.addColumn('number', 'Китай');
+                    data.addColumn('number', 'Алматы');
+                    data.addColumn('number', 'Выдача');
+                    for (var i = 0; i < labelsDays.length; i++) {
+                        data.addRow([labelsDays[i], usersDays[i], usersDays2[i], usersDays3[i]]);
+                    }
+
+                    var view = new google.visualization.DataView(data);
+                    view.setColumns([0, 1, {
+                        calc: "stringify",
+                        sourceColumn: 1,
+                        type: "string",
+                        role: "annotation"
+                    }, 2, {
+                        calc: "stringify",
+                        sourceColumn: 2,
+                        type: "string",
+                        role: "annotation"
+                    }, 3, {
+                        calc: "stringify",
+                        sourceColumn: 3,
+                        type: "string",
+                        role: "annotation"
+                    }]);
+
+                    var options = {
+                        legend: {position: "top", maxLines: 3},
+                        bar: {groupWidth: "70%"},
+                        colors: ["#ff6a00", "#31c48d", "#0095ff"],
+                        chartArea:{left:70,top:100, right:80, bottom:100}
+                    };
+                    var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+                    chart.draw(view, options);
+                    window.addEventListener('resize', function() {
+                        chart.draw(view, options);
+                    });
+                }
+            </script>
         </div>
     </div>
 </x-app-layout>
