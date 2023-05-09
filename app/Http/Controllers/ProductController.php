@@ -234,46 +234,42 @@ class ProductController extends Controller
         $data2 = collect($data2);
         $data3 = collect($data3);
 
-        $nowMonth = Carbon::now()->format('m');
+        $now = Carbon::now()->format('Y-m-d');
+        $targetDay = Carbon::now()->subDays(10)->format('Y-m-d');
 
-        $chinaTracksDays = TrackList::select('id', 'to_china', DB::raw("DATE(to_china) as date"))
-            ->whereMonth('to_china', $nowMonth)
-            ->groupBy('to_china')
-            ->orderBy('id', 'desc')
-            ->pluck('id', 'date');
-        $almatyTracksDays = TrackList::select('id', 'to_almaty', DB::raw("DATE(to_almaty) as date"))
-            ->whereMonth('to_almaty', $nowMonth)
-            ->groupBy('to_almaty')
-            ->orderBy('id', 'desc')
-            ->pluck('id', 'date');
-        $clientTracksDays = TrackList::select('id', 'to_client', DB::raw("DATE(to_client) as date"))
-            ->whereMonth('to_client', $nowMonth)
-            ->groupBy('to_client')
-            ->orderBy('id', 'desc')
-            ->pluck('id', 'date');
-
-        $dates = $chinaTracksDays->merge($almatyTracksDays)->merge($clientTracksDays)->sortKeysDesc()->toArray();
-
-        $labelsDays = array_slice(array_flip($dates), 0, 10);
-        foreach ($labelsDays as $labelsDay => $value) {
-            $labelsDays[$labelsDay] = Carbon::parse($value)->format('m-d');
+        while ($now > $targetDay) {
+            $labelsDays[] = Carbon::parse($now)->format('Y-m-d');
+            $now = Carbon::parse($now)->sub(1, 'day');
         }
 
         $dataDays = [];
         $dataDays2 = [];
         $dataDays3 = [];
         $i = 0;
+        $monthes = array(
+            1 => 'Января', 2 => 'Февраля', 3 => 'Марта', 4 => 'Апреля',
+            5 => 'Мая', 6 => 'Июня', 7 => 'Июля', 8 => 'Августа',
+            9 => 'Сентября', 10 => 'Октября', 11 => 'Ноября', 12 => 'Декабря'
+        );
+        $days = array(
+            'Воскресенье', 'Понедельник', 'Вторник', 'Среда',
+            'Четверг', 'Пятница', 'Суббота'
+        );
+        foreach ($labelsDays as $date) {
 
-        foreach ($dates as $date => $value) {
             $dataDays[$i] = TrackList::query()->where('to_china', 'LIKE', $date . '%')->count();
             $dataDays2[$i] = TrackList::query()->where('to_almaty', 'LIKE', $date . '%')->count();
             $dataDays3[$i] = TrackList::query()->where('to_client', 'LIKE', $date . '%')->count();
+
+
+            $labelsDays[$i] = date('j', strtotime($date)).' '.$monthes[(date('n', strtotime($date)))]. " \r\n".$days[(date('w', strtotime($date)))];
             $i++;
+
         }
 
-        $dataDays = collect($dataDays)->take(10);
-        $dataDays2 = collect($dataDays2)->take(10);
-        $dataDays3 = collect($dataDays3)->take(10);
+        $dataDays = collect($dataDays);
+        $dataDays2 = collect($dataDays2);
+        $dataDays3 = collect($dataDays3);
 
         $clients = User::query()->where('type', null)->count();
         $clients_today = User::query()->where('type', null)->whereDate('created_at',  Carbon::today())->count();

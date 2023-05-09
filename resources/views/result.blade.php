@@ -240,7 +240,7 @@
                         legend: {position: "top", maxLines: 3},
                         bar: {groupWidth: "70%"},
                         colors: ["#ff6a00", "#31c48d", "#0095ff"],
-                        chartArea:{left:70,top:100, right:80, bottom:100}
+                        chartArea:{left:130,top:100, right:80, bottom:100}
                     };
                     var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
                     chart.draw(view, options);
