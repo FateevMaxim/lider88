@@ -60,7 +60,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6 justify-content-center">
-                <img src="{{ asset('images/barcodeinventory.jpg') }}" width="200" class="mx-auto" alt="Barcode">
+                <div id="qrcode_inventory" class="qr_center"></div>
             </div>
 
         </div>
@@ -82,7 +82,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6 justify-content-center">
-                <img src="{{ asset('images/barcodeclear.jpg') }}" width="200" class="mx-auto" alt="Barcode">
+                <div id="qrcode_clear" class="qr_center"></div>
             </div>
 
         </div>
@@ -104,9 +104,50 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6 justify-content-center">
-                <img src="{{ asset('images/barcoderealtime.jpg') }}" width="200" class="mx-auto" alt="Barcode">
+                <div id="qrcode_realtime" class="qr_center"></div>
             </div>
 
         </div>
     </div>
 </div>
+
+
+<script src="{{ asset('js/qrcode.js') }}"></script>
+<script>
+    var upload_data = document.getElementById("qrcode");
+    if(upload_data){
+        var qrcode = new QRCode("qrcode", {
+            text: "{{$qr->upload_data}}",
+            width: 170,
+            height: 170,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    }
+
+    var qrcode = new QRCode("qrcode_clear", {
+        text: "{{$qr->clear_data}}",
+        width: 170,
+        height: 170,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    var qrcode = new QRCode("qrcode_inventory", {
+        text: "{{$qr->inventory_mode}}",
+        width: 170,
+        height: 170,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    var qrcode = new QRCode("qrcode_realtime", {
+        text: "{{$qr->real_time_mode}}",
+        width: 170,
+        height: 170,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+</script>

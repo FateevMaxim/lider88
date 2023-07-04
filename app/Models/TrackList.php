@@ -16,10 +16,19 @@ class TrackList extends Model
             'reg_client',
             'detail',
             'status',
+            'client_accept',
+            'city',
+            'accept_client',
         ];
     protected $hidden =
         [
             'created_at',
             'updated_at'
         ];
+
+
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, ClientTrackList::class, 'track_code', 'id', 'track_code', 'user_id');
+    }
 }

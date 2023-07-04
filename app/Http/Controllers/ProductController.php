@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Imports\TracksImport;
 use App\Models\ClientTrackList;
 use App\Models\Configuration;
@@ -69,6 +70,11 @@ class ProductController extends Controller
 
     public function almatyOut(Request $request)
     {
+        if($request["city"] != 'Выберите город'){
+            $city = $request["city"];
+        }else{
+            $city = null;
+        }
         $status = "Выдано клиенту";
         if ($request["send"] === 'true'){
             $status = "Отправлено в Ваш город";
@@ -82,10 +88,11 @@ class ProductController extends Controller
                 'to_client' => date(now()),
                 'status' => $status,
                 'reg_client' => 1,
+                'city' => $city,
                 'updated_at' => date(now()),
             ];
         }
-        TrackList::upsert($wordsFromFile, ['track_code', 'to_client', 'status', 'reg_client', 'updated_at']);
+        TrackList::upsert($wordsFromFile, ['track_code', 'to_client', 'status', 'reg_client', 'city', 'updated_at']);
         return response('success');
 
     }
@@ -93,7 +100,7 @@ class ProductController extends Controller
     {
 
         $track_code = ClientTrackList::query()->select('user_id')->where('track_code', $request['track_code'])->first();
-        $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'to_client', 'client_accept')->where('track_code', $request['track_code'])->first();
+        $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'to_client', 'client_accept', 'city')->where('track_code', $request['track_code'])->first();
         if ($track_code){
             $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block')->where('id', $track_code->user_id)->first();
         }else{
@@ -178,6 +185,11 @@ class ProductController extends Controller
     {
         Excel::import(new TracksImport($request['date']), $request->file('file')->store('temp'));
         return back();
+    }
+
+    public function fileExport(Request $request)
+    {
+        return Excel::download(new UsersExport($request['date'], $request['city']), 'users.xlsx');;
     }
 
     public function result ()

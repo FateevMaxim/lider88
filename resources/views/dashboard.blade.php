@@ -1,6 +1,7 @@
 @if(isset($config->address)) @section( 'chinaaddress', $config->address ) @endif
 @if(isset($config->title_text)) @section( 'title_text', $config->title_text ) @endif
 @if(isset($config->address_two)) @section( 'address_two', $config->address_two ) @endif
+
 <x-app-layout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -19,11 +20,13 @@
 
                             </button>
                         </div>
-                        <button type="button" class="inline-flex flex-col items-center justify-center px-5">
-                            <div class="items-center">
-                                <a href="{{ route('archive') }}"><span class="text-sm text-white leading-8">АРХИВ</span></a>
-                            </div>
-                        </button>
+                        <a href="{{ route('archive') }}" class="inline-flex flex-col items-center justify-center px-5">
+                            <button type="button">
+                                <div class="items-center">
+                                    <span class="text-sm text-white leading-8">АРХИВ</span>
+                                </div>
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
@@ -172,7 +175,7 @@
                                     </li>
                                     <li class="flex items-center">
                                         <svg class="w-6 h-6 mr-1.5 @if($track->to_client == null) text-gray-200 @else text-green-400 @endif flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                        <p><small>@if($track->status === 'Отправлено в Ваш город') Отправлено в Ваш город @else Получено клиентом @endif</small><br />
+                                        <p><small>@if($track->status === 'Отправлено в Ваш город') Отправлено в город - {{ $track->city }} @else Получено клиентом @endif</small><br />
                                             <span>{{$track->to_client}}</span></p>
                                     </li>
                                     <li class="grid items-center">

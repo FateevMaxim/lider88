@@ -143,9 +143,7 @@
 
                         </script>
                 </div>
-
                     @include('components.scanner-settings')
-
 
         </div>
 </x-app-layout>
