@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $config = Configuration::query()->select('agreement')->first();
-        return view('auth.register')->with(compact( 'config'));;
+        return view('auth.register')->with(compact( 'config'));
     }
 
     /**

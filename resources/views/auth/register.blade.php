@@ -25,14 +25,19 @@
             <x-text-input id="surname" class="block mt-1 w-full border-2" type="text" name="surname" :value="old('surname')" placeholder="Familiya" required autofocus autocomplete="surname" />
             <x-input-error :messages="$errors->get('surname')" class="mt-2" />
         </div>
-
-        <!-- Phone -->
-        <div class="mt-4">
-            <x-input-label for="phone" :value="__('Номер телефона')" />
-            <x-text-input id="login" class="block phone mt-1 w-full border-2" type="text" name="login" placeholder="+7 701 775 7272" :value="old('login')" required autocomplete="login" />
-            <x-input-error :messages="$errors->get('login')" class="mt-2" />
+        <div x-data="{ selected: '' }">
+            <x-input-label for="dropdown" :value="__('Страна')" />
+            <select name="dropdown" id="country" class="border-gray-300 rounded-md shadow-sm block mt-1 w-full border-2">
+                    <option value="kz" selected>Казахстан</option>
+                    <option value="uz" >Узбекистан</option>
+            </select>
+            <!-- Phone -->
+            <div class="mt-4">
+                <x-input-label for="phone" :value="__('Номер телефона')" />
+                <x-text-input class="block phone mt-1 w-full border-2" type="text" name="login" placeholder="+7 701 775 7272" :value="old('login')" required autocomplete="login" />
+                <x-input-error :messages="$errors->get('login')" class="mt-2" />
+            </div>
         </div>
-
         <!-- City -->
         <div class="mt-4">
             <x-input-label for="city" :value="__('Город (на английском)')" />

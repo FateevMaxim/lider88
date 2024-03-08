@@ -4,6 +4,10 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
+        <select name="dropdown" id="country" class="rounded-md shadow-sm block phone mt-1 w-9/12 mx-auto border-2 border-sky-400">
+            <option value="kz" selected>Казахстан</option>
+            <option value="uz">Узбекистан</option>
+        </select>
         <!-- Email Address -->
         <div>
             <x-text-input id="login" class="block phone mt-1 w-9/12 mx-auto border-2 border-sky-400" type="text" placeholder="+7 701 775 7272" name="login" :value="old('login')" required autofocus autocomplete="login" />

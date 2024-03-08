@@ -60,7 +60,19 @@
     </body>
     <script>
         $(document).ready(function(){
+
             $('.phone').inputmask('+79999999999');
+            $('#country').val('kz')
+
+            $('#country').change(function() {
+                if ($(this).val() === 'kz') {
+                    $('.phone').inputmask('+79999999999');
+                    $(this).val('kz');
+                } else if ($(this).val() === 'uz') {
+                    $('.phone').inputmask('+999999999999');
+                    $(this).val('uz');
+                }
+            });
         });
     </script>
     <script src=”{{ asset('/sw.js') }}”>
