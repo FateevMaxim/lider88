@@ -23,10 +23,30 @@ class ReportController extends Controller
         $city = '';
         $date = '';
         $status = '';
+        $dateColumn = 'to_client'; // значение по умолчанию
+
+        // Определяем колонку для даты в зависимости от статуса
+        if ($request->status != 'Выберите статус') {
+            switch ($request->status) {
+                case 'Отправлено в Ваш город':
+                case 'Выдано клиенту':
+                    $dateColumn = 'to_client';
+                    break;
+                case 'Товар принят':
+                    $dateColumn = 'client_accept';
+                    break;
+                case 'Получено на складе в Алматы':
+                    $dateColumn = 'to_almaty';
+                    break;
+                case 'Получено в Китае':
+                    $dateColumn = 'to_china';
+                    break;
+            }
+        }
         $query = TrackList::query()
             ->select('track_code', 'status', 'city');
         if ($request->date != null){
-            $query->whereDate('to_client', $request->date);
+            $query->whereDate($dateColumn, $request->date);
             $date = $request->date;
         }
         if ($request->city != 'Выберите город'){
