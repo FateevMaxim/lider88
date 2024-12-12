@@ -46,6 +46,12 @@ class ReportController extends Controller
             }
             $query = TrackList::query()
                 ->select('track_code', 'status', 'city');
+
+            $recordCount = $query->count();
+            if ($recordCount > 10000) { // установите свой лимит
+                throw new \RuntimeException('Слишком много записей для отображения');
+            }
+
             if ($request->date != null){
                 $query->whereDate($dateColumn, $request->date);
                 $date = $request->date;
