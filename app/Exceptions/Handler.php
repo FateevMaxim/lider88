@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\ErrorHandler\Error\FatalError;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -45,15 +44,5 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
-    }
-
-    public function render($request, Throwable $e)
-    {
-        if ($e instanceof FatalError && str_contains($e->getMessage(), 'Allowed memory size')) {
-            return redirect()->back()
-                ->with('error', 'Выбран слишком большой объем данных. Пожалуйста, уточните параметры фильтрации.');
-        }
-
-        return parent::render($request, $e);
     }
 }
