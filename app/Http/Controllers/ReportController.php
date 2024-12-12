@@ -74,9 +74,8 @@ class ReportController extends Controller
         } catch (\Throwable $e) {
             \Log::error('Report generation error: ' . $e->getMessage());
 
-                return response()->json([
-                    'error' => 'Выбран слишком большой объем данных. Пожалуйста, уточните параметры фильтрации.'
-                ], 500);
+            return redirect()->back()
+                ->with('error', 'Произошла ошибка при формировании отчета. Пожалуйста, уточните параметры фильтрации.');
         }
     }
 }
