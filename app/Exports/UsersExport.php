@@ -20,11 +20,13 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
     use Importable;
     private $date;
     private $city;
+    private $status;
 
-    public function __construct(string|null $date, string $city)
+    public function __construct(string|null $date, string $city, string $status)
     {
         $this->date = $date;
         $this->city = $city;
+        $this->status = $status;
     }
 
     /**
@@ -34,16 +36,39 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
     {
         $query = TrackList::query()
             ->select('id', 'track_code', 'status', 'city');
+
+        $dateColumn = 'to_client';
+
+        if ($this->status !== 'Выберите статус') {
+            switch ($this->status) {
+                case 'Отправлено в Ваш город':
+                case 'Выдано клиенту':
+                    $dateColumn = 'to_client';
+                    break;
+                case 'Товар принят':
+                    $dateColumn = 'client_accept';
+                    break;
+                case 'Получено на складе в Алматы':
+                    $dateColumn = 'to_almaty';
+                    break;
+                case 'Получено в Китае':
+                    $dateColumn = 'to_china';
+                    break;
+            }
+        }
+
         if ($this->date != null){
-            $query->whereDate('to_client', $this->date);
+            $query->whereDate($dateColumn, $this->date);
         }
         if ($this->city != 'Выберите город'){
             $query->where('city', 'LIKE', $this->city);
         }
 
-        $data = $query->with('user')->get();
+        if ($this->status !== 'Выберите статус'){
+            $query->where('status', 'LIKE', $this->status);
+        }
 
-        return $data;
+        return $query->with('user')->get();
     }
 
     /**

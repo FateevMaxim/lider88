@@ -21,7 +21,7 @@
                                 </select>
                             </div>
                             <div>
-                                <select name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                     @if($status  != '')<option selected> {{ $status }} </option>@endif
                                     <option> {{ "Выберите статус" }} </option>
                                         <option value="Отправлено в Ваш город">Отправлено в Ваш город</option>
@@ -110,7 +110,8 @@
                             $(document).ready(function(){
                                 date = $("#date").val();
                                 city = $("#city").val();
-                                $("#a").attr("href", 'file-export?date='+date+'&city='+city)
+                                track_status = $("#status").val();
+                                $("#a").attr("href", 'file-export?date='+date+'&city='+city+'&status='+track_status)
                             });
 
 
